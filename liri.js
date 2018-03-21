@@ -4,11 +4,14 @@ const keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var request = require("request");
 
+// getting user's command
+var userParam = process.argv.splice(2).join(" ").split("-");
+
 // API Functions
-var spotifyReq = function(id, secret, song) {
+var spotifyReq = function(song) {
     var spotify = new Spotify({
-        id: id,
-        secret: secret
+        id: keys.spotify.id,
+        secret: keys.spotify.secret
       });
        
       spotify
@@ -32,5 +35,9 @@ var omdbReq = function() {
     console.log('body:', body);
     });
 }
-//spotifyCall(keys.spotify.id, keys.spotify.secret, "highway to hell");
-omdbReq();
+
+if(userParam) {
+    if(userParam[0] === "spot this song") {
+        spotifyReq(userParam[1]);
+    }
+}
