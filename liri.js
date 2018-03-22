@@ -5,7 +5,7 @@ var Spotify = require('node-spotify-api');
 var request = require("request");
 
 // getting user's command
-var userParam = process.argv.splice(2).join(" ").split("-");
+var userParam = process.argv.splice(2).join(" ").split("- ");
 
 // API Functions
 var spotifyReq = function(song) {
@@ -17,7 +17,15 @@ var spotifyReq = function(song) {
       spotify
         .search({ type: 'track', query: song })
         .then(function(response) {
-          console.log(response);
+            var shortcut = response.tracks.items[0];
+          console.log(
+              "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n" +
+              " Artist(s): " + shortcut.artists[0].name + "\n" +
+              " Song: " + shortcut.name + "\n" +
+              " Album: " + shortcut.album.name + " \n" +
+              " song preview: " + shortcut.preview_url + "\n" +
+              "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+            );
         })
         .catch(function(err) {
           console.log(err);
