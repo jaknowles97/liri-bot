@@ -4,9 +4,7 @@ var Twitter = require("twitter");
 const keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var request = require("request");
-
-// getting user's command
-var userParam = process.argv.splice(2).join(" ").split("-");
+var fs = require("fs");
 
 // API Functions
 var spotifyReq = function(song) {
@@ -71,34 +69,61 @@ var twitterReq = function() {
         if(error) throw error;
         var tweets = tweets;
         console.log("---------------------MY RECENT TWEETS-------------------------");
+        
         for(var i=0; i < tweets.length && i < 20; i++) {
-            console.log("\Tweet no." + parseInt(i + 1) + "-   *   -   *   -   *   -   *   -   *   -   *\n");
-            console.log("Date posted: " + tweets[i].created_at);
-            console.log("content: " + tweets[i].text);
-            console.log("\n***************************************************\n");
+            console.log("\Tweet no." + parseInt(i + 1) + "-   *   -   *   -   *   -   *   -   *   -   *\n"+
+            "Date posted: " + tweets[i].created_at +
+            "content: " + tweets[i].text +
+            "\n***************************************************\n");
         }
        // console.log(response);  // Raw response object. 
     });
-
 }
 
+var logHistory = function(item) {
+    fs.appendFile('random.txt', item, function(err) {
+        if(err) throw err;
+    })
+}
+
+var readFile = function() {
+    fs.readFile('random.txt', 'utf8', function(err, data) {
+        if(err) throw err;
+        userParam = data.split("-");
+        cmdHandler(userParam[0], userParam[1]);
+
+    })
+}
+
+var cmdHandler = function(userParam, userParam1) {
+
     // Based on what command the user gave to liri, do..
-    switch(userParam[0]) {
+    switch(userParam) {
+        
         case "spot this song":
-            switch(userParam[1]) {
+            switch(userParam1) {
                 case undefined || '': spotifyReq("The Sign Ace of Base"); break;
-                default: spotifyReq(userParam[1]);
+                default: spotifyReq(userParam1);
             }
         break;
         case "movie this":
-            switch(userParam[1]) {
+            switch(userParam1) {
                 case undefined || '': omdbReq("Mr.Nobody"); break;
-                default: omdbReq(userParam[1].trim());
+                default: omdbReq(userParam1.trim());
             }
         break;
         case "my tweets":
             twitterReq();
         break;
+        case "do what it says":
+            readFile();
+        break;
         default:
             console.log("give liri a cmd !");
+            
     }
+}
+    // getting user's command
+    var userParam = process.argv.splice(2).join(" ").split("-");
+
+    cmdHandler(userParam[0], userParam[1]);
