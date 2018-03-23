@@ -1,5 +1,6 @@
 // Required Packages n' Files
 require("dotenv").config();
+var Twitter = require("twitter");
 const keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var request = require("request");
@@ -58,6 +59,29 @@ var omdbReq = function(movie) {
     });
 }
 
+var twitterReq = function() {
+    var client = new Twitter({
+        consumer_key: keys.twitter.consumer_key,
+        consumer_secret: keys.twitter.consumer_secret,
+        access_token_key: keys.twitter.access_token_key,
+        access_token_secret: keys.twitter.access_token_secret
+    });
+
+    client.get('statuses/user_timeline', function(error, tweets, response) {
+        if(error) throw error;
+        var tweets = tweets;
+        console.log("---------------------MY RECENT TWEETS-------------------------");
+        for(var i=0; i < tweets.length && i < 20; i++) {
+            console.log("\Tweet no." + parseInt(i + 1) + "-   *   -   *   -   *   -   *   -   *   -   *\n");
+            console.log("Date posted: " + tweets[i].created_at);
+            console.log("content: " + tweets[i].text);
+            console.log("\n***************************************************\n");
+        }
+       // console.log(response);  // Raw response object. 
+    });
+
+}
+
     // Based on what command the user gave to liri, do..
     switch(userParam[0]) {
         case "spot this song":
@@ -73,10 +97,8 @@ var omdbReq = function(movie) {
             }
         break;
         case "my tweets":
-
+            twitterReq();
         break;
         default:
             console.log("give liri a cmd !");
     }
-
-

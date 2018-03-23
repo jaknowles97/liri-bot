@@ -1,5 +1,5 @@
 console.log('KEYS LOCKED & LOADED!!!');
-if(!process.env.TWITTER_CONSUMER_KEY || !process.env.TWITTER_CONSUMER_SECRET)
+
 exports.twitter = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
