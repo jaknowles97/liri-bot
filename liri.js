@@ -96,7 +96,6 @@ var readFile = function() {
 }
 
 var cmdHandler = function(userParam, userParam1) {
-
     // Based on what command the user gave to liri, do..
     switch(userParam) {
         
@@ -105,25 +104,52 @@ var cmdHandler = function(userParam, userParam1) {
                 case undefined || '': spotifyReq("The Sign Ace of Base"); break;
                 default: spotifyReq(userParam1);
             }
-        break;
+            break;
         case "movie this":
             switch(userParam1) {
                 case undefined || '': omdbReq("Mr.Nobody"); break;
                 default: omdbReq(userParam1.trim());
             }
-        break;
+            break;
         case "my tweets":
             twitterReq();
-        break;
+            break;
         case "do what it says":
             readFile();
-        break;
+            break;
         default:
-            console.log("give liri a cmd !");
-            
+            console.clear();
+            console.log(
+                "                           ---     ---   -------    ---\n" +
+                "                           | |     | |   |      \\   | |\n" +
+                "                           | |     | |   |      /   | |\n" +
+                "                           | |     | |   | | \\ \\    | |\n" +
+                "                           |  ---  | |   | |   \\ \\  | |\n" +
+                "                           ------  ---   ---    --- ---\n" +
+                "                        ===================================\n" 
+            );
+            console.log('                      " LIRI\u2122, at the mercy of your command "');
+            console.log('________________________________________________________________________________________________\n');
+            console.log('    \u21D3 Type the commands below EXACTLY as seen below to get the default result for each \u21D3\n')
+            console.log('                               node liri spot this song-');
+            console.log('                               node liri movie this-');
+            console.log('                               node liri my tweets');
+            console.log('                               node liri do what it says');
+            console.log('________________________________________________________________________________________________\n');
+            console.log("cmds that end with '-' are search tools, simply type what you want to search after the cmd\n");
+            console.log("                    ex. node liri spot this song- Highway to hell");
+            console.log('________________________________________________________________________________________________\n');
+            console.log("if typo or invalid cmd this screen will appear for easy ref to cmds bc who likes big red errors\n");
+            console.log('               "We don\'t make mistakes, just happy little accidents."  -Bob Ross\n');
+            console.log('___________________________________________coded by____________________________________________\n');
+            console.log("                                     Andrew Knowles 2018");
+            console.log("                               https://github.com/jaknowles97\n");
+
+
     }
 }
-    // getting user's command
-    var userParam = process.argv.splice(2).join(" ").split("-");
 
+//this is the starting point of my program
+    // get user input and return an array with 2 items in it.
+    var userParam = process.argv.splice(2).join(" ").split("-");
     cmdHandler(userParam[0], userParam[1]);
